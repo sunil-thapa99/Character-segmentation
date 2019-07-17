@@ -211,7 +211,7 @@ tstClassErrorPath='Figure_CNN/tst_ClassAccu'
  
 while (tstErrorCount<patience): 
     # train model for 1 epoch
-    log = model.fit(X_train, Y_train, batch_size=128, verbose=0, validation_data=(X_test, Y_test))
+    log = model.fit(X_train, Y_train, batch_size=128, verbose=0, validation_data=(X_test, Y_test), epochs=20)
     # monitor train loss
     print(log.history.keys())
 
