@@ -171,30 +171,30 @@ model.add(Activation('softmax'))
 
 model.compile(loss='categorical_crossentropy', optimizer='adadelta')
 
-def plotLearningCurve(figPath):
-    fig=plt.figure(0, figsize=(10,8) )
-    fig.clf()
-    plt.ioff()
-    plt.subplot(211)
-    plt.grid(True)
-    plt.plot(trn_error, label='Training Set Error', linestyle="--", linewidth=2)
-    plt.plot(tst_error, label='Validation Set Error', linewidth=2)
-    plt.title('CE Error')
-    plt.xlabel('Epoch')
-    plt.ylabel('Error')
-    plt.legend()
+# def plotLearningCurve(figPath):
+#     fig=plt.figure(0, figsize=(10,8) )
+#     fig.clf()
+#     plt.ioff()
+#     plt.subplot(211)
+#     plt.grid(True)
+#     plt.plot(trn_error, label='Training Set Error', linestyle="--", linewidth=2)
+#     plt.plot(tst_error, label='Validation Set Error', linewidth=2)
+#     plt.title('CE Error')
+#     plt.xlabel('Epoch')
+#     plt.ylabel('Error')
+#     plt.legend()
        
-    plt.subplot(212)
-    plt.grid(True)
-    plt.plot(trn_class_accu, label='Training Set Accuracy', linestyle="--", linewidth=2)
-    plt.plot(tst_class_accu, label='Validation Set Accuracy', linewidth=2)
-    plt.ylabel('Percent')
-    plt.xlabel('Epoch')
-    plt.title('Classification Accuracy')
-    plt.legend(loc=4)
+#     plt.subplot(212)
+#     plt.grid(True)
+#     plt.plot(trn_class_accu, label='Training Set Accuracy', linestyle="--", linewidth=2)
+#     plt.plot(tst_class_accu, label='Validation Set Accuracy', linewidth=2)
+#     plt.ylabel('Percent')
+#     plt.xlabel('Epoch')
+#     plt.title('Classification Accuracy')
+#     plt.legend(loc=4)
        
-    plt.tight_layout(pad=2.1)
-    plt.savefig(figPath)
+#     plt.tight_layout(pad=2.1)
+#     plt.savefig(figPath)
 
 tstErrorCount = 0
 oldtstError = 0
@@ -216,20 +216,20 @@ while (tstErrorCount<patience):
     print(log.history.keys())
 
     trnError = log.history["loss"]
-    trnAcc = log.history["acc"]
+    # trnAcc = log.history["acc"]
     # monitor val loss
     tstError = log.history["val_loss"]
-    tstAcc = log.history["val_acc"] 
+    # tstAcc = log.history["val_acc"] 
     # append the loss and accuracy
-    trn_class_accu.append(trnAcc)
-    tst_class_accu.append(tstAcc)
+    # trn_class_accu.append(trnAcc)
+    # tst_class_accu.append(tstAcc)
     trn_error.append(trnError)
     tst_error.append(tstError)
     
     np.savetxt(trnErrorPath, trn_error)
     np.savetxt(tstErrorPath, tst_error)
-    np.savetxt(trnClassErrorPath, trn_class_accu)
-    np.savetxt(tstClassErrorPath, tst_class_accu)
+    # np.savetxt(trnClassErrorPath, trn_class_accu)
+    # np.savetxt(tstClassErrorPath, tst_class_accu)
      
     if(oldtstError==0):
         oldtstError = tstError
@@ -237,22 +237,22 @@ while (tstErrorCount<patience):
     if(oldtstError<tstError):
         tstErrorCount = tstErrorCount+1
         print( 'No Improvement, count=%d' % tstErrorCount)
-        print( 'Trn Acc:', trnAcc )
-        print( 'Tst Acc:', tstAcc)
+        # print( 'Trn Acc:', trnAcc )
+        # print( 'Tst Acc:', tstAcc)
 #         print( '    Old Validation Error:', oldtstError )
 #         print( 'Current Validation Error:', tstError)
                                                                                                                                                  
     if(oldtstError>tstError):
         print( 'Improvement made!')
-        print( 'Trn Acc:', trnAcc )
-        print( 'Tst Acc:', tstAcc)
+        # print( 'Trn Acc:', trnAcc )
+        # print( 'Tst Acc:', tstAcc)
 #         print '    Old Validation Error:', oldtstError 
 #         print 'Current Validation Error:', tstError
         tstErrorCount=0
         oldtstError = tstError
         model.save('model.h5')
         model.save_weights("cnn.gz", overwrite=True)
-        plotLearningCurve(figPath)
+        # plotLearningCurve(figPath)
         
 print( "Patience elapsed! Stopping.")
 model.summary()
